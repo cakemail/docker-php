@@ -64,6 +64,9 @@ class DockerAdapter implements AdapterInterface
             $transaction->getRequest()->setHeader('Connection', 'close');
         }
 
+        // Francis Brassard - Really ghetto fix, Host header is required in docker 1.12+
+        $transaction->getRequest()->setHeader('Host', '');
+
         try {
             RequestEvents::emitBefore($transaction);
             if (!$transaction->getResponse()) {
